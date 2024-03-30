@@ -1,1 +1,350 @@
+create database art_gallery;
+use art_gallery;
+
+CREATE TABLE `gallery` (
+  `g_id` varchar(26) NOT NULL DEFAULT 'not null',
+  `gallery_name` varchar(255) DEFAULT NULL,
+  `location` varchar(65) DEFAULT NULL,
+  PRIMARY KEY (`g_id`)
+);
+
+CREATE TABLE `exhibition` (
+  `e_id` varchar(20) NOT NULL PRIMARY KEY,
+  `g_id` varchar(20) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  FOREIGN KEY (`g_id`) REFERENCES `gallery` (`g_id`)
+);
+
+CREATE TABLE `customer` (
+  `cust_id` varchar(20) NOT NULL PRIMARY KEY,
+  `g_id` varchar(20) DEFAULT NULL,
+  `art_id` varchar(20) DEFAULT NULL,
+  `first_name` char(65) DEFAULT NULL,
+  `last_name` char(65) DEFAULT NULL,
+  `Dob` date DEFAULT NULL,
+  `address` char(255) DEFAULT NULL,
+  FOREIGN KEY (`g_id`) REFERENCES `gallery` (`g_id`)
+);
+
+CREATE TABLE `artist` (
+  `artist_id` varchar(20) NOT NULL PRIMARY KEY,
+  `g_id` varchar(20) DEFAULT NULL,
+  `cust_id` varchar(20) DEFAULT NULL,
+  `e_id` varchar(20) DEFAULT NULL,
+  `first_name` char(55) DEFAULT NULL,
+  `last_name` char(65) DEFAULT NULL,
+  `birth_place` char(85) DEFAULT NULL,
+  `Style` char(255) DEFAULT NULL,
+  FOREIGN KEY (`g_id`) REFERENCES `gallery` (`g_id`),
+  FOREIGN KEY (`e_id`) REFERENCES `exhibition` (`e_id`),
+  FOREIGN KEY (`cust_id`) REFERENCES `customer` (`cust_id`)
+);
+
+CREATE TABLE `artwork` (
+  `art_id` varchar(20) NOT NULL PRIMARY KEY,
+  `title` varchar(255) DEFAULT NULL,
+  `year` varchar(12) DEFAULT NULL,
+  `type_of_art` varchar(20) DEFAULT NULL,
+  `price` varchar(20) DEFAULT NULL,
+  `e_id` varchar(20) DEFAULT NULL,
+  `g_id` varchar(20) DEFAULT NULL,
+  `artist_id` varchar(20) DEFAULT NULL,
+  FOREIGN KEY (`e_id`) REFERENCES exhibition (`e_id`),
+  FOREIGN KEY (`g_id`) REFERENCES gallery (`g_id`),
+  FOREIGN KEY (`artist_id`) REFERENCES artist (`artist_id`)
+);
+
+CREATE TABLE `contacts` (
+  `cust_id` varchar(20) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  FOREIGN KEY (`cust_id`) REFERENCES customer (`cust_id`)
+);
+
+
+INSERT INTO Gallery (g_id, Gallery_name, location)
+VALUES 
+    ('G001', 'National Gallery of Modern Art', 'New Delhi'),
+    ('G002', 'Taj Art Gallery', 'Mumbai'),
+    ('G003', 'Indian Museum', 'Kolkata'),
+    ('G004', 'Sakshi Gallery', 'Bangalore'),
+    ('G005', 'Jehangir Art Gallery', 'Mumbai'),
+    ('G006', 'Victoria Memorial Hall', 'Kolkata'),
+    ('G007', 'Gallery Sumukha', 'Bangalore'),
+    ('G008', 'Kalakriti Art Gallery', 'Hyderabad'),
+    ('G009', 'Delhi Art Gallery', 'New Delhi'),
+    ('G010', 'Chitra Kala Parishath', 'Bangalore'),
+    ('G011', 'Art Alive Gallery', 'New Delhi'),
+    ('G012', 'Jawahar Kala Kendra', 'Jaipur'),
+    ('G013', 'Shrishti Art Gallery', 'Hyderabad'),
+    ('G014', 'Sant Dyaneshwar Natyagruha', 'Pune'),
+    ('G015', 'Artisans Gallery', 'Mumbai'),
+    ('G016', 'Gallery Maskara', 'Mumbai'),
+    ('G017', 'Palette Art Gallery', 'New Delhi'),
+    ('G018', 'Galerie Sara Arakkal', 'Bangalore'),
+    ('G019', 'Kochi Biennale', 'Kochi'),
+    ('G020', 'Venkatappa Art Gallery', 'Bangalore'),
+    ('G021', 'Pundole Art Gallery', 'Mumbai'),
+    ('G022', 'Rajasthan Lalit Kala Akademi', 'Jaipur'),
+    ('G023', 'Art Indus', 'New Delhi'),
+    ('G024', 'Prithvi Art Gallery', 'Mumbai'),
+    ('G025', 'Dhoomimal Art Centre', 'New Delhi');
+
+
+INSERT INTO Exhibition (e_id, g_id, Start_date, End_date)
+VALUES 
+    ('E001', 'G001', '2024-01-10', '2024-02-20'),
+    ('E002', 'G002', '2024-02-05', '2024-02-10'),
+    ('E003', 'G003', '2024-03-01', '2024-03-10'),
+    ('E004', 'G004', '2024-04-05', '2024-04-25'),
+    ('E005', 'G005', '2024-05-10', '2024-05-09'),
+    ('E006', 'G006', '2024-06-08', '2024-06-21'),
+    ('E007', 'G007', '2024-07-01', '2024-07-10'),
+    ('E008', 'G008', '2024-08-15', '2024-08-22'),
+    ('E009', 'G009', '2024-09-10', '2024-09-16'),
+    ('E010', 'G010', '2024-10-05', '2024-10-08'),
+    ('E011', 'G011', '2024-11-01', '2024-11-19'),
+    ('E012', 'G012', '2024-12-15', '2024-12-25'),
+    ('E013', 'G013', '2025-01-10', '2025-01-20'),
+    ('E014', 'G014', '2025-02-05', '2025-02-15'),
+    ('E015', 'G015', '2025-03-01', '2025-03-10');
+
+
+INSERT INTO Customer (Cust_id, g_id, art_id, first_name, Last_name, DoB, Address)
+VALUES 
+    ('C001', 'G001', 'A001', 'Ramesh', 'Kumar', '1990-05-15', 'Mumbai'),
+    ('C002', 'G001', 'A002', 'Suresh', 'Singh', '1985-09-20', 'Delhi'),
+    ('C003', 'G001', 'A005', 'Priya', 'Patel', '1988-12-10', 'Bangalore'),
+    ('C004', 'G001', 'A003', 'Deepika', 'Sharma', '1992-03-25', 'Kolkata'),
+    ('C005', 'G001', 'A001', 'Amit', 'Gupta', '1983-07-30', 'Chennai'),
+    ('C006', 'G001', 'A002', 'Anjali', 'Verma', '1995-06-18', 'Hyderabad'),
+    ('C007', 'G001', 'A002', 'Rahul', 'Yadav', '1987-02-14', 'Pune'),
+    ('C008', 'G001', 'A002', 'Neha', 'Mishra', '1991-08-08', 'Jaipur'),
+    ('C009', 'G001', 'A002', 'Sanjay', 'Shah', '1980-11-03', 'Ahmedabad'),
+    ('C010', 'G001', 'A002', 'Pooja', 'Chopra', '1984-10-12', 'Chandigarh'),
+    ('C011', 'G002', 'A003', 'Amitabh', 'Kapoor', '1975-04-05', 'Mumbai'),
+    ('C012', 'G002', 'A003', 'Deepak', 'Joshi', '1989-01-28', 'Delhi'),
+    ('C013', 'G002', 'A006', 'Shreya', 'Malhotra', '1993-07-22', 'Bangalore'),
+    ('C014', 'G002', 'A003', 'Rajesh', 'Chandra', '1986-09-17', 'Kolkata'),
+    ('C015', 'G002', 'A007', 'Meena', 'Sharma', '1982-11-09', 'Chennai'),
+    ('C016', 'G002', 'A004', 'Vivek', 'Nair', '1984-12-03', 'Hyderabad'),
+    ('C017', 'G002', 'A004', 'Neeta', 'Pillai', '1990-06-27', 'Pune'),
+    ('C018', 'G002', 'A004', 'Akash', 'Menon', '1981-03-14', 'Jaipur'),
+    ('C019', 'G002', 'A004', 'Varun', 'Chauhan', '1987-08-19', 'Ahmedabad'),
+    ('C020', 'G002', 'A008', 'Sneha', 'Rajput', '1992-10-07', 'Chandigarh'),
+    ('C021', 'G003', 'A005', 'Kavita', 'Singh', '1988-02-20', 'Mumbai'),
+    ('C022', 'G003', 'A002', 'Raj', 'Malik', '1983-05-11', ' Delhi'),
+    ('C023', 'G003', 'A004', 'Aryan', 'Sharma', '1986-09-30', ' Bangalore'),
+    ('C024', 'G003', 'A005', 'Nisha', 'Pandey', '1994-11-15', 'Kolkata'),
+    ('C025', 'G003', 'A010', 'Rohit', 'Gandhi', '1980-08-24', 'Chennai');
+
+
+
+INSERT INTO Artist (artist_id, g_id, cust_id, e_id, First_name, Last_name, Birth_place, Style)
+VALUES 
+    ('A001', 'G001', 'C001', 'E001', 'Leonardo', 'da Vinci', 'Vinci', 'Renaissance'),
+    ('A002', 'G002', 'C002', 'E002', 'Vincent', 'van Gogh', 'Groot-Zundert', 'Post-Impressionism'),
+    ('A003', 'G003', 'C003', 'E003', 'Pablo', 'Picasso', 'Málaga', 'Cubism'),
+    ('A004', 'G004', 'C004', 'E004', 'Michelangelo', 'Buonarroti', 'Caprese', 'Renaissance'),
+    ('A005', 'G005', 'C005', 'E005', 'Claude', 'Monet', 'Paris', 'Impressionism'),
+    ('A006', 'G006', 'C006', 'E006', 'Raja', 'Ravi Varma', 'Kilimanoor', 'Realism'),
+    ('A007', 'G007', 'C007', 'E007', 'Amrita', 'Sher-Gil', 'Budapest', 'Modernism'),
+    ('A008', 'G008', 'C008', 'E008', 'M.F.', 'Hussain', 'Pandharpur', 'Modernism'),
+    ('A009', 'G009', 'C009', 'E009', 'Tyeb', 'Mehta', 'Kutch', 'Modernism'),
+    ('A010', 'G010', 'C010', 'E010', 'S.H.', 'Raza', 'Mandla', 'Abstract'),
+    ('A011', 'G011', 'C011', 'E011', 'F.N.', 'Souza', 'Goa', 'Expressionism'),
+    ('A012', 'G012', 'C012', 'E012', 'Anjolie', 'Ela Menon', 'Kolkata', 'Realism'),
+    ('A013', 'G013', 'C013', 'E013', 'Subodh', 'Gupta', 'Khagaul', 'Contemporary'),
+    ('A014', 'G014', 'C014', 'E014', 'Bikash', 'Bhattacharjee', 'Kolkata', 'Realism'),
+    ('A015', 'G015', 'C015', 'E015', 'Jamini', 'Roy', 'Beliatore', 'Bengal School');
+
+
+INSERT INTO Artwork (art_id, Title, Year, Type_of_art, Price, e_id, g_id, Artist_id)
+VALUES 
+    ('AW001', 'The Last Supper', '1495', 'Painting', '10000000.00', 'E001', 'G001', 'A001'),
+    ('AW002', 'Starry Night', '1889', 'Painting', '20000000.00', 'E002', 'G002', 'A002'),
+    ('AW003', 'Les Demoiselles d''Avignon', '1907', 'Painting', '15000000.00', 'E003', 'G003', 'A003'),
+    ('AW004', 'David', '1504', 'Sculpture', '25000000.00', 'E004', 'G004', 'A004'),
+    ('AW005', 'Water Lilies', '1916', 'Painting', '18000000.00', 'E005', 'G005', 'A005'),
+    ('AW006', 'Lady with the Lamp', '1885', 'Painting', '12000000.00', 'E006', 'G006', 'A006'),
+    ('AW007', 'Self Portrait', '1931', 'Painting', '8000000.00', 'E007', 'G007', 'A007'),
+    ('AW008', 'Ganesh', '1970', 'Sculpture', '15000000.00', 'E008', 'G008', 'A008'),
+    ('AW009', 'Mahatma Gandhi', '1948', 'Painting', '10000000.00', 'E009', 'G009', 'A009'),
+    ('AW010', 'F.N. Souza', '1960', 'Painting', '11000000.00', 'E010', 'G010', 'A010'),
+    ('AW011', 'Horses', '1958', 'Sculpture', '22000000.00', 'E011', 'G011', 'A011'),
+    ('AW012', 'Mother Teresa', '1980', 'Painting', '9000000.00', 'E012', 'G012', 'A012'),
+    ('AW013', 'The Umbrella', '2005', 'Sculpture', '13000000.00', 'E013', 'G013', 'A013'),
+    ('AW014', 'Village Life', '1975', 'Painting', '17000000.00', 'E014', 'G014', 'A014'),
+    ('AW015', 'Radha Krishna', '1990', 'Painting', '16000000.00', 'E015', 'G015', 'A015'),
+    ('AW016', 'The Scream', '1893', 'Painting', '30000000.00', 'E001', 'G001', 'A001'),
+    ('AW017', 'Guernica', '1937', 'Painting', '40000000.00', 'E002', 'G002', 'A002'),
+    ('AW018', 'The Persistence of Memory', '1931', 'Painting', '35000000.00', 'E003', 'G003', 'A003'),
+    ('AW019', 'Venus de Milo', '100 BC', 'Sculpture', '60000000.00', 'E004', 'G004', 'A004'),
+    ('AW020', 'The Starry Night', '1889', 'Painting', '50000000.00', 'E005', 'G005', 'A005'),
+    ('AW021', 'The Mona Lisa', '1503', 'Painting', '55000000.00', 'E006', 'G006', 'A006'),
+    ('AW022', 'The Thinker', '1904', 'Sculpture', '25000000.00', 'E007', 'G007', 'A007'),
+    ('AW023', 'The Birth of Venus', '1486', 'Painting', '70000000.00', 'E008', 'G008', 'A008'),
+    ('AW024', 'The Creation of Adam', '1512', 'Painting', '80000000.00', 'E009', 'G009', 'A009'),
+    ('AW025', 'The Night Watch', '1642', 'Painting', '45000000.00', 'E010', 'G010', 'A010'),
+    ('AW026', 'The Starry Night', '1889', 'Painting', '50000000.00', 'E011', 'G011', 'A011'),
+    ('AW027', 'The Last Judgment', '1541', 'Painting', '68000000.00', 'E012', 'G012', 'A012'),
+    ('AW028', 'The Great Wave off Kanagawa', '1830', 'Print', '55000000.00', 'E013', 'G013', 'A013'),
+    ('AW029', 'American Gothic', '1930', 'Painting', '42000000.00', 'E014', 'G014', 'A014'),
+    ('AW030', 'The Kiss', '1907', 'Sculpture', '32000000.00', 'E015', 'G015', 'A015'),
+    ('AW031', 'Buddha', '500 BC', 'Sculpture', '70000000.00', 'E001', 'G001', 'A001'),
+    ('AW032', 'The Creation of Adam', '1512', 'Painting', '80000000.00', 'E002', 'G002', 'A002'),
+    ('AW033', 'The Last Supper', '1495', 'Painting', '100000000.00', 'E003', 'G003', 'A003'),
+    ('AW034', 'The Birth of Venus', '1486', 'Painting', '70000000.00', 'E004', 'G004', 'A004'),
+    ('AW035', 'The Night Watch', '1642', 'Painting', '45000000.00', 'E005', 'G005', 'A005'),
+    ('AW036', 'Mona Lisa', '1503', 'Painting', '55000000.00', 'E006', 'G006', 'A006'),
+    ('AW037', 'The Thinker', '1904', 'Sculpture', '25000000.00', 'E007', 'G007', 'A007'),
+    ('AW038', 'The Great Wave off Kanagawa', '1830', 'Print', '55000000.00', 'E008', 'G008', 'A008'),
+    ('AW039', 'American Gothic', '1930', 'Painting', '42000000.00', 'E009', 'G009', 'A009'),
+    ('AW040', 'The Kiss', '1907', 'Sculpture', '32000000.00', 'E010', 'G010', 'A010'),
+    ('AW041', 'The Last Judgment', '1541', 'Painting', '68000000.00', 'E011', 'G011', 'A011'),
+    ('AW042', 'Ganesh', '1970', 'Sculpture', '15000000.00', 'E012', 'G012', 'A012'),
+    ('AW043', 'Mahatma Gandhi', '1948', 'Painting', '10000000.00', 'E013', 'G013', 'A013'),
+    ('AW044', 'F.N. Souza', '1960', 'Painting', '11000000.00', 'E014', 'G014', 'A014'),
+    ('AW045', 'Horses', '1958', 'Sculpture', '22000000.00', 'E015', 'G015', 'A015'),
+    ('AW046', 'Mother Teresa', '1980', 'Painting', '9000000.00', 'E001', 'G001', 'A001'),
+    ('AW047', 'The Umbrella', '2005', 'Sculpture', '13000000.00', 'E002', 'G002', 'A002'),
+    ('AW048', 'Village Life', '1975', 'Painting', '17000000.00', 'E003', 'G003', 'A003'),
+    ('AW049', 'Radha Krishna', '1990', 'Painting', '16000000.00', 'E004', 'G004', 'A004'),
+    ('AW050', 'Horses', '1958', 'Sculpture', '22000000.00', 'E005', 'G005', 'A005');
+
+
+INSERT INTO Contacts (CUST_ID, PHONE)
+VALUES 
+    ('C001', '+91 9876543210'),
+    ('C002', '+91 9876543211'),
+    ('C003', '+91 9876543212'),
+    ('C004', '+91 9876543213'),
+    ('C005', '+91 9876543214'),
+    ('C006', '+91 9876543215'),
+    ('C007', '+91 9876543216'),
+    ('C008', '+91 9876543217'),
+    ('C009', '+91 9876543218'),
+    ('C010', '+91 9876543219'),
+    ('C011', '+91 9876543220'),
+    ('C012', '+91 9876543221'),
+    ('C013', '+91 9876543222'),
+    ('C014', '+91 9876543223'),
+    ('C015', '+91 9876543224'),
+    ('C016', '+91 9876543225'),
+    ('C017', '+91 9876543226'),
+    ('C018', '+91 9876543227'),
+    ('C019', '+91 9876543228'),
+    ('C020', '+91 9876543229'),
+    ('C021', '+91 9876543230'),
+    ('C022', '+91 9876543231'),
+    ('C023', '+91 9876543232'),
+    ('C024', '+91 9876543233'),
+    ('C025', '+91 9876543234');
+
+
+select * from  gallery;
+select * from exhibition;
+select * from customer;
+select * from artist;
+select * from artwork;
+select * from contacts;
+
+desc  gallery;
+desc exhibition;
+desc customer;
+desc artist;
+desc artwork;
+desc contacts;
+
+SELECT c.first_name, c.last_name
+FROM customer c
+JOIN gallery g ON c.g_id = g.g_id
+WHERE g.gallery_name = 'National Gallery of Modern Art' AND g.location = 'New Delhi';
+
+SELECT a.Title
+FROM artwork a
+JOIN exhibition e ON a.e_id = e.e_id
+JOIN gallery g ON e.g_id = g.g_id
+WHERE g.gallery_name = 'Taj Art Gallery' AND g.location = 'Mumbai';
+
+SELECT DISTINCT ar.first_name, ar.last_name
+FROM artist ar
+JOIN artwork aw ON ar.artist_id = aw.artist_id
+WHERE CAST(aw.price AS DECIMAL(15,2)) > 50000000.00
+limit 5;
+
+SELECT aw.Title
+FROM artwork aw
+JOIN customer c ON aw.artist_id = c.cust_id
+WHERE c.address LIKE '%Mumbai%';
+
+SELECT con.phone,con.cust_id
+FROM contacts con
+JOIN customer c ON con.cust_id = c.cust_id
+JOIN exhibition e ON c.g_id = e.g_id
+JOIN gallery g ON e.g_id = g.g_id
+WHERE g.gallery_name = 'Indian Museum' AND g.location = 'Kolkata';
+
+
+SELECT COUNT(DISTINCT cust_id) AS num_customers_visited
+FROM customer
+WHERE g_id = 'G003' -- Assuming 'G002' is the gallery_id for Taj Art Gallery
+AND address LIKE '%kolkata%';
+
+SELECT COUNT(*) AS num_customers_from_mumbai
+FROM customer
+WHERE address LIKE '%Mumbai%';
+
+
+SELECT c.*, g.gallery_name, g.location
+FROM customer c
+LEFT JOIN gallery g ON c.g_id = g.g_id
+where gallery_name = 'Taj Art Gallery';
+
+SELECT g.*, c.first_name, c.last_name
+FROM gallery g
+RIGHT JOIN customer c ON g.g_id = c.g_id
+where location ='kolkata';
+
+SELECT a.Title
+FROM artwork a
+JOIN exhibition e ON a.e_id = e.e_id
+WHERE e.start_date > '2024-01-01'
+LIMIT 5;
+
+SELECT first_name, last_name
+FROM customer
+WHERE cust_id IN (
+    SELECT cust_id
+    FROM artist
+    WHERE artist_id IN (
+        SELECT artist_id
+        FROM artist
+        WHERE birth_place = 'Kolkata'));
+
+SELECT e_id, g_id, Start_date, End_date
+FROM Exhibition
+WHERE End_date = (
+    SELECT MAX(End_date)
+    FROM Exhibition
+);
+
+
+
+SELECT e_id, g_id, Start_date, End_date, 
+    DATEDIFF(End_date, Start_date) + 1 AS duration_days
+FROM Exhibition;
+
+SELECT e_id, g_id, Start_date, End_date, 
+       DATEDIFF(End_date, Start_date) + 1 AS duration_days
+FROM Exhibition
+ORDER BY DATEDIFF(End_date, Start_date) DESC
+limit 5;
+
+SELECT e_id, g_id, Start_date, End_date, 
+       DATEDIFF(End_date, Start_date) + 1 AS duration_days
+FROM Exhibition
+ORDER BY DATEDIFF(End_date, Start_date) ASC
+LIMIT 3;
+
 
